@@ -1,0 +1,44 @@
+.container {
+  margin: 0 auto;
+}
+
+.boxes {
+  display: flex;
+  width: 520px;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+.box {
+  border: 1px solid #b3b3b3;
+  width: 3rem;
+  height: 3rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.clicked {
+  background-color: rgb(16, 96, 119);
+}
+
+.inactive {
+  background-color: rgb(127, 127, 127);
+}
+
+.message {
+  position: relative;
+  height: 5rem;
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  color: #dbe738;
+}
+
+.timer {
+  font-size: 2rem;
+  margin-top: 2rem;
+}

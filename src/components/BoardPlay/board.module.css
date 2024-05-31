@@ -1,0 +1,31 @@
+.board-play {
+  border: 1px solid #eee;
+}
+
+.boxrow {
+  display: block;
+  border: 1px solid red;
+}
+
+.boxes {
+  display: flex;
+}
+
+.box {
+  border: 1px solid #b3b3b3;
+  width: 3rem;
+  height: 3rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.clicked {
+  background-color: rgb(16, 96, 119);
+}
+
+.inactive {
+  background-color: rgb(127, 127, 127);
+}
