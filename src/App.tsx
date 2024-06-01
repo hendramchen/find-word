@@ -66,6 +66,7 @@ function App() {
     });
     setCollectLetters(collect);
   }
+
   return (
     <>
       <BoardPlay letters={letters} onClickLetter={handleClickBox} />
