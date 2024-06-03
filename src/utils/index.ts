@@ -6,16 +6,19 @@ export function generateRandomString(
 ): letter[][] {
   const characters = "abcdefghijklmnopqrstuvwxyz";
   const result: letter[][] = [];
+  let inc = 0;
 
   for (let i = 0; i < length; i++) {
     const temp = [];
     for (let j = 0; j < length; j++) {
       const randomIndex = Math.floor(Math.random() * 25);
       temp[j] = {
+        id: inc,
         char: isRandom ? characters[randomIndex].toUpperCase() : "#",
         clicked: false,
         isActive: true,
       };
+      inc++;
     }
     result[i] = temp;
   }
@@ -28,6 +31,7 @@ export function insertKeyword(
   keyword: string[]
 ): letter[][] {
   const tempLetters = [...letters];
+
   dataInjected.forEach((rows) => {
     rows.forEach((col, idx) => {
       tempLetters[col[0]][col[1]] = {
@@ -36,6 +40,7 @@ export function insertKeyword(
       };
     });
   });
+
   return tempLetters;
 }
 

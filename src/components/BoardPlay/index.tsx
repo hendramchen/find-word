@@ -26,7 +26,7 @@ export default function BoardPlay({ letters, onClickLetter }: BoardPlay) {
 
               return (
                 <Box
-                  key={colIndex}
+                  key={item.id}
                   item={item}
                   indexes={{ rowIndex, colIndex }}
                   style={style}

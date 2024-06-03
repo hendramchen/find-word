@@ -9,38 +9,59 @@ import {
   compareData,
   disableLetter,
 } from "./utils";
-import { dataInjected } from "./data";
+import { boarddata } from "./data";
 import { useEffect, useState } from "react";
 import { letter } from "./types/board";
 
-const keyword = ["C", "O", "D", "E", "X"];
-const initialLetters = insertKeyword(
-  generateRandomString(8),
-  dataInjected,
-  keyword
-);
-
 function App() {
-  const [letters, setLetters] = useState([...initialLetters]);
+  const [letters, setLetters] = useState<letter[][]>([]);
   const [collectLetters, setCollectLetters] = useState<number[][]>([]);
+  const [level, setLevel] = useState(0);
+  const [keywordLength, setKeywordLength] = useState(0);
+  const [count, setCount] = useState(0);
 
   useEffect(
     function () {
-      if (collectLetters.length === keyword.length) {
+      const data = boarddata[level];
+      const randomString = generateRandomString(data.boxSize);
+      const generateLetters = insertKeyword(
+        randomString,
+        data.collection,
+        data.keywords
+      );
+
+      setLetters(generateLetters);
+      setKeywordLength(data.keywords.length);
+    },
+    [level]
+  );
+
+  useEffect(
+    function () {
+      if (
+        collectLetters.length > 0 &&
+        collectLetters.length === keywordLength
+      ) {
         const { isMatch, selectedLetters } = compareData(
-          dataInjected,
+          boarddata[level].collection,
           [...collectLetters],
-          keyword.length
+          keywordLength
         );
 
         if (isMatch) {
           const updateLetters = disableLetter(selectedLetters, letters);
           setLetters(updateLetters);
+          setCount((prev) => prev + 1);
         }
       }
     },
     [collectLetters]
   );
+
+  function handleNext() {
+    setLevel((prev) => prev + 1);
+    setCount(0);
+  }
 
   function handleClickBox(item: letter, rowIdx: number, colIdx: number) {
     if (!item.isActive) {
@@ -56,7 +77,9 @@ function App() {
     });
 
     setLetters(updateLetters);
+
     const collect: number[][] = [];
+
     updateLetters.forEach((rows, rowIndex) => {
       rows.forEach((col, colIndex) => {
         if (col.clicked && col.isActive) {
@@ -70,6 +93,10 @@ function App() {
   return (
     <>
       <BoardPlay letters={letters} onClickLetter={handleClickBox} />
+      {count === boarddata[level].numberOfkeyword && (
+        <button onClick={handleNext}>Next</button>
+      )}
+
       <BoardAdmin />
     </>
   );
