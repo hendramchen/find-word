@@ -101,16 +101,10 @@ export default function BoardAdmin() {
       type: "set-keyword",
       payload: { ...state, keyword: [...state.word] },
     });
-    // setKeyword([...word]);
-    // console.log({
-    //   word,
-    //   keyword,
-    //   direction,
-    // });
   }
 
   return (
-    <div style={{ backgroundColor: "#000" }}>
+    <div>
       <form onSubmit={handleSubmit}>
         <input type="text" value={state.word} onChange={handleChange} />
         <select name="direction" onChange={handleChangeDirection}>

@@ -1,5 +1,6 @@
 .board-play {
-  border: 1px solid #eee;
+  border: 1px solid #d9d9d9;
+  padding: 2px;
 }
 
 .boxrow {
@@ -12,20 +13,22 @@
 }
 
 .box {
-  border: 1px solid #b3b3b3;
+  border: 1px solid #d9d9d9;
   width: 3rem;
   height: 3rem;
+  margin: 2px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .clicked {
-  background-color: rgb(16, 96, 119);
+  background-color: rgb(2, 98, 101);
 }
 
 .inactive {
-  background-color: rgb(127, 127, 127);
+  background-color: rgb(38, 84, 59);
 }
