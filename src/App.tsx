@@ -1,6 +1,4 @@
-// import { useState } from 'react';
-import "./App.css";
-import BoardAdmin from "./components/BoardAdmin";
+import { useEffect, useState } from "react";
 import BoardPlay from "./components/BoardPlay";
 
 import {
@@ -10,8 +8,8 @@ import {
   disableLetter,
 } from "./utils";
 import { boarddata } from "./data";
-import { useEffect, useState } from "react";
 import { letter } from "./types/board";
+import "./App.css";
 
 function App() {
   const [letters, setLetters] = useState<letter[][]>([]);
@@ -63,10 +61,7 @@ function App() {
     setCount(0);
   }
 
-  function handleClickBox(item: letter, rowIdx: number, colIdx: number) {
-    if (!item.isActive) {
-      return;
-    }
+  function updateClickLetter(rowIdx: number, colIdx: number) {
     const cloneLetters = [...letters];
     const updateLetters = cloneLetters.map((rows, rowIndex) => {
       return rows.map((col, colIndex) => {
@@ -78,26 +73,40 @@ function App() {
 
     setLetters(updateLetters);
 
+    return updateLetters;
+  }
+
+  function updateCollectLetters(letterUpdated: letter[][]) {
     const collect: number[][] = [];
 
-    updateLetters.forEach((rows, rowIndex) => {
+    letterUpdated.forEach((rows, rowIndex) => {
       rows.forEach((col, colIndex) => {
         if (col.clicked && col.isActive) {
           collect.push([rowIndex, colIndex]);
         }
       });
     });
+
     setCollectLetters(collect);
   }
+
+  function handleClickBox(item: letter, rowIdx: number, colIdx: number) {
+    if (!item.isActive) {
+      return;
+    }
+
+    const letterUpdated = updateClickLetter(rowIdx, colIdx);
+
+    updateCollectLetters(letterUpdated);
+  }
+
+  const isShowNext =
+    count === boarddata[level].numberOfkeyword && level < boarddata.length - 1;
 
   return (
     <>
       <BoardPlay letters={letters} onClickLetter={handleClickBox} />
-      {count === boarddata[level].numberOfkeyword && (
-        <button onClick={handleNext}>Next</button>
-      )}
-
-      <BoardAdmin />
+      {isShowNext && <button onClick={handleNext}>Next</button>}
     </>
   );
 }

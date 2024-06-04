@@ -1,13 +1,9 @@
+import { letter } from "../../types/board";
+import { BoardType } from "./types";
+import { Box } from "./Box";
 import styles from "./board.module.css";
 
-import { letter } from "../../types/board";
-
-interface BoardPlay {
-  letters: letter[][];
-  onClickLetter: (item: letter, rowIndex: number, colIndex: number) => void;
-}
-
-export default function BoardPlay({ letters, onClickLetter }: BoardPlay) {
+export default function BoardPlay({ letters, onClickLetter }: BoardType) {
   function getStyleBox(item: letter) {
     let style = item.clicked ? styles.box + " " + styles.clicked : styles.box;
     if (!item.isActive) {
@@ -37,24 +33,6 @@ export default function BoardPlay({ letters, onClickLetter }: BoardPlay) {
           </div>
         );
       })}
-    </div>
-  );
-}
-interface Box {
-  item: letter;
-  indexes: {
-    rowIndex: number;
-    colIndex: number;
-  };
-  style: string;
-  onClick: (item: letter, rowIndex: number, colIndex: number) => void;
-}
-
-function Box({ item, indexes, style, onClick }: Box) {
-  const { rowIndex, colIndex } = indexes;
-  return (
-    <div className={style} onClick={() => onClick(item, rowIndex, colIndex)}>
-      {item.char}
     </div>
   );
 }
