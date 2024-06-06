@@ -7,8 +7,8 @@ export interface letter {
 
 export interface BoardData {
   id: number;
-  keywords: string[];
-  numberOfkeyword: number;
+  keyword: string[];
+  numOfKeyword: number;
   collection: number[][][];
   direction: string;
   boxSize: number;

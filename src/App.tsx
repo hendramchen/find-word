@@ -25,11 +25,11 @@ function App() {
       const generateLetters = insertKeyword(
         randomString,
         data.collection,
-        data.keywords
+        data.keyword
       );
 
       setLetters(generateLetters);
-      setKeywordLength(data.keywords.length);
+      setKeywordLength(data.keyword.length);
     },
     [level]
   );
@@ -101,7 +101,7 @@ function App() {
   }
 
   const isShowNext =
-    count === boarddata[level].numberOfkeyword && level < boarddata.length - 1;
+    count === boarddata[level].numOfKeyword && level < boarddata.length - 1;
 
   return (
     <>
