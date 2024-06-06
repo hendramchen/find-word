@@ -40,6 +40,8 @@ function reducer(state: BoardData, action: BoardAdminAction) {
         collection: action.payload.collection,
         numOfKeyword: action.payload.numOfKeyword,
       };
+    case "reset":
+      return initialState;
   }
   return state;
 }
@@ -121,31 +123,63 @@ export default function BoardAdmin() {
     dispatch({ type: "set-collection", payload });
   }
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input type="text" ref={refWord} onChange={handleChange} />
-        <select name="direction" onChange={handleChangeDirection}>
-          {directionOpts.map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
-        <select name="size" onChange={handleChangeSize}>
-          {sizeOpts.map((item) => (
-            <option key={item} value={item}>{`${item} x ${item}`}</option>
-          ))}
-        </select>
-        <button type="submit">Generate Board</button>
-      </form>
+  function handleReset() {
+    dispatch({ type: "reset", payload: state });
+    setShowBoard(false);
+    setLetters([]);
+    setDataInjected([]);
+  }
 
+  return (
+    <>
+      <div className="container">
+        <form onSubmit={handleSubmit}>
+          {!showBoard && (
+            <div className="form-control">
+              <label htmlFor="word">Keyword</label>
+              <input type="text" ref={refWord} onChange={handleChange} />
+            </div>
+          )}
+
+          <div className="form-control">
+            <label htmlFor="direction">Direction</label>
+            <select name="direction" onChange={handleChangeDirection}>
+              {directionOpts.map((item) => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </select>
+          </div>
+          {!showBoard && (
+            <div className="form-control">
+              <label htmlFor="size">Size</label>
+              <select name="size" onChange={handleChangeSize}>
+                {sizeOpts.map((item) => (
+                  <option key={item} value={item}>{`${item} x ${item}`}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {!showBoard && (
+            <button type="submit" disabled={state.keyword.length === 0}>
+              Generate Board
+            </button>
+          )}
+          {showBoard && (
+            <button type="button" onClick={handleReset}>
+              Reset
+            </button>
+          )}
+        </form>
+      </div>
       {showBoard && (
-        <div>
+        <div className="container-row">
           <BoardPlay letters={letters} onClickLetter={handleClickBox} />
           <button onClick={handleSaveBoard}>Save Board</button>
         </div>
       )}
-    </div>
+    </>
   );
 }
