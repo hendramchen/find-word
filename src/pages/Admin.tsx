@@ -1,7 +1,8 @@
 import { useEffect, useReducer, useState, useRef } from "react";
-import BoardPlay from "../BoardPlay";
-import { generateRandomString, insertKeyword } from "../../utils";
-import { BoardData, letter } from "../../types/board";
+import BoardPlay from "../components/BoardPlay";
+import { generateRandomString, insertKeyword } from "../utils";
+import { BoardData, letter } from "../types/board";
+import { useCurrentBoardData } from "../BoardContext";
 
 const directionOpts = [
   "horizontal",
@@ -42,11 +43,14 @@ function reducer(state: BoardData, action: BoardAdminAction) {
       };
     case "reset":
       return initialState;
+    default: {
+      throw Error("Unknown action: " + action.type);
+    }
   }
-  return state;
 }
 
-export default function BoardAdmin() {
+export default function Admin() {
+  const { boardData } = useCurrentBoardData();
   const [state, dispatch] = useReducer(reducer, initialState);
   const refWord = useRef(null);
   const [letters, setLetters] = useState<letter[][]>([]);
@@ -114,12 +118,21 @@ export default function BoardAdmin() {
   }
 
   function handleSaveBoard() {
+    // const cloneBoardData = [...boardData];
     const payload = {
       ...state,
+      id: boardData.length + 1,
       collection: dataInjected,
       numOfKeyword: dataInjected.length,
     };
-    console.log(payload);
+
+    // cloneBoardData.push(payload);
+    // setBoardData(cloneBoardData);
+
+    // console.log(cloneBoardData);
+
+    localStorage.setItem("boardData", JSON.stringify(payload));
+
     dispatch({ type: "set-collection", payload });
   }
 
